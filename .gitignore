@@ -1,0 +1,7 @@
+*.o
+*.out
+temp/
+*.log
+*.swp
+test
+libshell.a
