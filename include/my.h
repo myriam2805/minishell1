@@ -13,6 +13,7 @@ int my_strcmp(const char *a, const char *b);
 int exit_command(char *blabla);
 int minishell(char **env);
 int my_cd(char **args, char **env);
+char *my_getenv(char **env, char *var);
 void my_setenv(char **av, char ***env);
 int my_exec(char *path, char **args, char **env);
 void my_unsetenv(char **av, char ***env);
