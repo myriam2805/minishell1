@@ -8,7 +8,11 @@
 NAME = mysh
 
 SRC = src/minishell.c \
-    src/my_strcmp.c \
+    src/exit.c \
+	src/env_settings.c \
+	src/cd_do.c \
+	src/exec.c \
+main.c
 
 OBJ = $(SRC:.c=.o)
 CC = clang
