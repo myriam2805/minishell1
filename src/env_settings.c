@@ -46,13 +46,14 @@ void my_unsetenv(char **av, char ***env)
         return;
     len = my_strlen(av[1]);
     while ((*env)[i] != NULL) {
-        if (my_strncmp((*env)[i], av[1], len) == 0 && (*env)[i][len] == '=') {
-            while ((*env)[i] != NULL) {
-                (*env)[i] = (*env)[i + 1];
-                i++;
-            }
-            return;
-        }
+        if (my_strncmp((*env)[i], av[1], len) == 0 && (*env)[i][len] == '=')
+            break;
+        i++;
+    }
+    if ((*env)[i] == NULL)
+        return;
+    while ((*env)[i] != NULL) {
+        (*env)[i] = (*env)[i + 1];
         i++;
     }
 }

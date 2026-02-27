@@ -17,16 +17,13 @@ int my_exec(char *path, char **args, char **env)
     pid_t pid = fork();
     int statut;
 
-    if ((pid) == -1) {
-        perror("fork");
-        return 84;
-    } else if (pid == 0) {
-        if (execve(path, args, env) == -1) {
+    if (pid == -1)
+        return (84);
+    if (pid == 0) {
+        execve(path, args, env);
         perror(path);
         exit(84);
     }
-    } else {
-        waitpid(pid, &statut, 0);
-    }
-    return 0;
+    waitpid(pid, &statut, 0);
+    return (0);
 }

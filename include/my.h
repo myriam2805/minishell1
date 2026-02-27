@@ -16,5 +16,9 @@ int my_cd(char **args);
 void my_setenv(char **av, char ***env);
 int my_exec(char *path, char **args, char **env);
 void my_unsetenv(char **av, char ***env);
+int my_strncmp(char const *s1, char const *s2, int n);
+void clean_line(char *str);
+char **get_args(char *buffer);
+int manage_flags(char **args, char **env);
 
 #endif
