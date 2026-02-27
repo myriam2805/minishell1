@@ -34,12 +34,8 @@ char **get_args(char *buffer)
     return (args);
 }
 
-int manage_flags(char **av)
+int manage_flags(char **args, char **env)
 {
-    char *buffer = NULL;
-    char **env = NULL;
-    char **args = get_args(buffer);
-
     if (my_strcmp(args[0], "exit") == 0)
             exit(0);
     else if (my_strcmp(args[0], "env") == 0)
@@ -70,7 +66,7 @@ int minishell(char **env)
             write(1, "myriam$ ", 8);
             continue;
         }
-        manage_flags(env);
+        manage_flags(args, env);
     }
     free(buffer);
     return 0;
