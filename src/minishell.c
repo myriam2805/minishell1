@@ -47,7 +47,7 @@ int manage_flags(char **args, char **env)
         return (0);
     }
     if (my_strcmp(args[0], "cd") == 0) {
-        my_cd(args);
+        my_cd(args, env);
         return (0);
     }
     if (my_strcmp(args[0], "unsetenv") == 0) {
