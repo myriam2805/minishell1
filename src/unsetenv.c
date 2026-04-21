@@ -6,28 +6,8 @@
 */
 
 #include <unistd.h>
-#include <stdlib.h>
+#include <string.h>
 #include "my.h"
-
-int my_strncmp(char const *s1, char const *s2, int n)
-{
-    int i = 0;
-
-    if (n <= 0)
-        return (0);
-    while (s1[i] && s2[i] && i < n - 1 && s1[i] == s2[i])
-        i++;
-    return (s1[i] - s2[i]);
-}
-
-int my_strlen(char *str)
-{
-    int len = 0;
-
-    while (str[len] != '\0')
-        len = len + 1;
-    return len;
-}
 
 void env_disp(char **env)
 {
@@ -35,6 +15,17 @@ void env_disp(char **env)
         write(1, env[i], my_strlen(env[i]));
         write(1, "\n", 1);
     }
+}
+
+char *find_env_var(char *env_name, char **env)
+{
+    int len = my_strlen(env_name);
+
+    for (int i = 0; env[i] != NULL; i++) {
+        if (my_strncmp(env[i], env_name, len) == 0 && env[i][len] == '=')
+            return &env[i][len + 1];
+    }
+    return NULL;
 }
 
 void my_unsetenv(char **av, char ***env)

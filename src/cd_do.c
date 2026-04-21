@@ -25,17 +25,22 @@ char *my_getenv(char **env, char *var)
     return (NULL);
 }
 
-int my_cd(char **args, char **env)
+int my_cd(char **args, char ***env)
 {
     char *path = args[1];
+    char buf[4096];
+    char *av[3];
 
-    if (path == NULL) {
-        path = my_getenv(env, "HOME");
-    }
-    if (chdir(path) == 0) {
-        return 0;
-    } else {
+    if (path == NULL)
+        path = my_getenv(*env, "HOME");
+    if (chdir(path) == -1) {
         perror("cd");
         return 84;
     }
+    getcwd(buf, 4096);
+    av[0] = "setenv";
+    av[1] = "PWD";
+    av[2] = buf;
+    my_setenv(av, env);
+    return 0;
 }

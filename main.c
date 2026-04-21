@@ -8,6 +8,9 @@
 
 int main(int ac, char **av, char **env)
 {
-    minishell(env);
-    return 0;
+    if (ac > 1)
+        return 84;
+    if (!av)
+        return 84;
+    return minishell(env);
 }

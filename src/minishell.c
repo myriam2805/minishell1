@@ -38,24 +38,38 @@ char **get_args(char *buffer)
     return (args);
 }
 
-int manage_flags(char **args, char **env)
+int handle_builtins(char **args, char ***env, char *buf)
 {
-    if (my_strcmp(args[0], "exit") == 0)
-        exit(0);
-    if (my_strcmp(args[0], "env") == 0) {
-        env_disp(env);
+    if (my_strcmp(args[0], "cd") == 0)
+        return my_cd(args, env);
+    if (my_strcmp(args[0], "pwd") == 0) {
+        getcwd(buf, 4096);
+        write(1, buf, my_strlen(buf));
+        write(1, "\n", 1);
         return (0);
     }
-    if (my_strcmp(args[0], "cd") == 0) {
-        my_cd(args, env);
+    if (my_strcmp(args[0], "setenv") == 0) {
+        my_setenv(args, env);
         return (0);
     }
     if (my_strcmp(args[0], "unsetenv") == 0) {
-        my_unsetenv(args, &env);
+        my_unsetenv(args, env);
         return (0);
     }
-    my_exec(args[0], args, env);
-    return (0);
+    return my_exec(args[0], args, *env);
+}
+
+int manage_flags(char **args, char ***env)
+{
+    char buf[4096];
+
+    if (my_strcmp(args[0], "exit") == 0)
+        exit(0);
+    if (my_strcmp(args[0], "env") == 0) {
+        env_disp(*env);
+        return (0);
+    }
+    return handle_builtins(args, env, buf);
 }
 
 int minishell(char **env)
@@ -63,17 +77,17 @@ int minishell(char **env)
     char *buffer = NULL;
     size_t size = 0;
     char **args = NULL;
+    int ret = 0;
 
-    write(1, "myriam$ ", 8);
+    write(1, "$> ", 3);
     while (getline(&buffer, &size, stdin) != -1) {
         clean_line(buffer);
         args = get_args(buffer);
-        if (args[0] != NULL) {
-            manage_flags(args, env);
-        }
-        write(1, "myriam$ ", 8);
+        if (args[0] != NULL)
+            ret = manage_flags(args, &env);
+        write(1, "$> ", 3);
         free(args);
     }
     free(buffer);
-    return 0;
+    return ret;
 }
