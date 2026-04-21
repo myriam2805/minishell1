@@ -80,6 +80,6 @@ make re     # full rebuild
 
 ---
 
-## Authors
+## Author
 
 > Built with ❤️ as part of the Epitech curriculum.
